@@ -6,10 +6,10 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import HomeIcon from "@mui/icons-material/Home";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-//import { useDispatch } from "react-redux";
-//import { logout } from "../../../State/Authentication/Action";
+import { useDispatch } from "react-redux";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import EventIcon from "@mui/icons-material/Event";
+import { logout } from "./../State/Authentication/Action";
 
 const menu = [
   { title: "Orders", icon: <ShoppingBagIcon /> },
@@ -24,16 +24,16 @@ const menu = [
 const ProfileNavigation = ({ handleClose, open }) => {
   const isSmallScreen = useMediaQuery("(max-width:1080px)");
   const navigate = useNavigate();
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  /*   const handleLogout = () => {
+  const handleLogout = () => {
     dispatch(logout());
-  }; */
+  };
 
   const handleNavigate = (item) => {
     navigate(`/my-profile/${item.title.toLowerCase()}`);
     if (item.title === "Logout") {
-      //handleLogout();
+      handleLogout();
       navigate("/");
     }
   };

@@ -1,16 +1,18 @@
 import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
+  LOGIN_FAILURE,
+  LOGIN_REQUEST,
   LOGIN_SUCCESS,
   GET_USER_FAILURE,
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
-  ADD_TO_FAVORITES_REQUEST,
-  ADD_TO_FAVORITES_SUCCESS,
-  ADD_TO_FAVORITES_FAILURE,
+  ADD_TO_FAVORITE_REQUEST,
+  ADD_TO_FAVORITE_SUCCESS,
+  ADD_TO_FAVORITE_FAILURE,
   LOGOUT,
 } from "./ActionType";
-import { axios } from "axios";
+import axios from "axios";
 import { API_URL, api } from "./../../config/api";
 
 export const registerUser = (reqData) => async (dispatch) => {
@@ -34,22 +36,26 @@ export const registerUser = (reqData) => async (dispatch) => {
 };
 
 export const loginUser = (reqData) => async (dispatch) => {
-  dispatch({ type: REGISTER_REQUEST });
   try {
-    const { data } = await axios.post(
-      `${API_URL}/auth/signup`,
-      reqData.userData
-    );
+    dispatch({ type: LOGIN_REQUEST });
+
+    const { data } = await axios.post(`${API_URL}/auth/signin`, reqData.data);
     if (data.jwt) localStorage.setItem("jwt", data.jwt);
     if (data.role === "ROLE_RESTAURANT_OWNER") {
       reqData.navigate("/admin/restaurant");
     } else {
       reqData.navigate("/");
     }
-    dispatch({ type: REGISTER_SUCCESS, payload: data.jwt });
-    dispatch({ type: REGISTER_REQUEST });
+
+    dispatch({ type: LOGIN_SUCCESS, payload: data.jwt });
   } catch (error) {
-    console.log("error", error);
+    dispatch({
+      type: LOGIN_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
   }
 };
 
@@ -75,7 +81,7 @@ export const getUser = (token) => {
 
 export const addToFavorites = ({ restaurantId, jwt }) => {
   return async (dispatch) => {
-    dispatch({ type: ADD_TO_FAVORITES_REQUEST });
+    dispatch({ type: ADD_TO_FAVORITE_REQUEST });
     try {
       const { data } = await api.put(
         `api/restaurants/${restaurantId}/add-favorites`,
@@ -87,11 +93,11 @@ export const addToFavorites = ({ restaurantId, jwt }) => {
         }
       );
       console.log("Add to favorites ", data);
-      dispatch({ type: ADD_TO_FAVORITES_SUCCESS, payload: data });
+      dispatch({ type: ADD_TO_FAVORITE_SUCCESS, payload: data });
     } catch (error) {
       console.log("catch error ", error);
       dispatch({
-        type: ADD_TO_FAVORITES_FAILURE,
+        type: ADD_TO_FAVORITE_FAILURE,
         payload: error.message,
       });
     }

@@ -10,6 +10,8 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../State/Authentication/Action";
 
 const initialValues = {
   email: "",
@@ -18,7 +20,12 @@ const initialValues = {
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const handleSubmit = () => {};
+  const dispatch = useDispatch();
+  const handleSubmit = (values) => {
+    console.log("values", values);
+
+    dispatch(loginUser({ userData: values, navigate }));
+  };
   return (
     <div>
       <Typography variant="h5" className="text-center">
