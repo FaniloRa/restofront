@@ -1,7 +1,12 @@
 import React from "react";
+import Events from "./Events";
 
 const CustomerEvents = () => {
-  return <div>CustomerEvents</div>;
+  return (
+    <div>
+      <Events />
+    </div>
+  );
 };
 
 export default CustomerEvents;
