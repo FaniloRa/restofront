@@ -11,6 +11,8 @@ import {
   Select,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { registerUser } from "./../State/Authentication/Action";
 
 const initialValues = {
   fullName: "",
@@ -32,7 +34,12 @@ const validationSchema = Yup.object({
 
 const RegisterForm = () => {
   const navigate = useNavigate();
-  const handleSubmit = (values) => {};
+  const dispatch = useDispatch();
+  const handleSubmit = (values) => {
+    console.log("values", values);
+
+    dispatch(registerUser({ userData: values, navigate }));
+  };
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

@@ -6,7 +6,14 @@ import {
   GET_USER_REQUEST,
   RESET_PASSWORD_REQUEST,
   REQUEST_RESET_PASSWORD_REQUEST,
-  ADD_TO_FAVORITES_SUCCESS,
+  ADD_TO_FAVORITE_SUCCESS,
+  LOGIN_FAILURE,
+  REGISTER_FAILURE,
+  GET_USER_FAILURE,
+  REQUEST_RESET_PASSWORD_FAILURE,
+  LOGIN_SUCCESS,
+  GET_USER_SUCCESS,
+  LOGOUT,
 } from "./ActionType";
 
 const initialState = {
@@ -35,7 +42,7 @@ const authReducer = (state = initialState, action) => {
         success: "Register Success",
       };
 
-    case ADD_TO_FAVORITES_SUCCESS:
+    case ADD_TO_FAVORITE_SUCCESS:
       return {
         ...state,
         isLoading: false,
@@ -46,8 +53,33 @@ const authReducer = (state = initialState, action) => {
           : [action.payload, ...state.favorites],
       };
 
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        jwt: action.payload,
+        success: "Login success",
+      };
+
+    case GET_USER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        user: action.payload,
+        favorites: action.payload.favorites,
+      };
+
+    case LOGOUT:
+      return initialState;
+
+    case REGISTER_FAILURE:
+    case LOGIN_FAILURE:
+    case GET_USER_FAILURE:
+    case REQUEST_RESET_PASSWORD_FAILURE:
+      return { ...state, isLoading: false, error: action.payload };
+
     default:
-      break;
+      return state;
   }
 };
 

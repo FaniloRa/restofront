@@ -23,7 +23,7 @@ const CustomerRoute = () => {
           element={<RestaurantDetails />}
         />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/my-profile/*" element={<Profile />} />
+        <Route path="/my-profile" element={<Profile />} />
       </Routes>
       <Auth />
     </div>
