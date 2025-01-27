@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Home.css";
 import { MultiItemCaoursel } from "./MultiItemCaoursel";
 import RestaurantCart from "./../Restaurant/RestaurantCart";
+import { useDispatch } from "react-redux";
+import { getAllRestaurantsAction } from "./../State/Restaurant/restaurant.action";
 
 const restaurant = [1, 1, 1, 1, 1, 1];
 
 const Home = () => {
+  const dispatch = useDispatch();
+
+  const jwt = localStorage.getItem("jwt");
+
+  useEffect(() => {
+    dispatch(getAllRestaurantsAction(jwt));
+  });
+
   return (
     <div className="">
       <section className="banner z-50 relative flex flex-col justify-center items-center">
