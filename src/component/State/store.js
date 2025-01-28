@@ -10,7 +10,7 @@ import { ingredientReducer } from "./Ingredients/Reducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  restauarnt: restaurantReducer,
+  restaurant: restaurantReducer,
   menu: menuItemReducer,
   cart: cartReducer,
   order: orderReducer,
