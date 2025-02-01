@@ -1,4 +1,4 @@
-import { api } from "../../../config/api";
+import { api } from "./../../config/api";
 import {
   createMenuItemFailure,
   createMenuItemRequest,
@@ -20,7 +20,7 @@ import {
   UPDATE_MENU_ITEMS_AVAILABILITY_FAILURE,
   UPDATE_MENU_ITEMS_AVAILABILITY_REQUEST,
   UPDATE_MENU_ITEMS_AVAILABILITY_SUCCESS,
-} from "./ActionType";
+} from "./ActionTypes";
 
 // localhost:5454/api/admin/ingredients/food/16
 

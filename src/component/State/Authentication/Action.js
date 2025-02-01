@@ -79,7 +79,9 @@ export const getUser = (token) => {
   };
 };
 
-export const addToFavorites = ({ restaurantId, jwt }) => {
+export const addToFavorites = (restaurantId, jwt) => {
+  console.log("restaurantId", restaurantId);
+
   return async (dispatch) => {
     dispatch({ type: ADD_TO_FAVORITE_REQUEST });
     try {
