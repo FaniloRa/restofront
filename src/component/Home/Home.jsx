@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import RestarantCard from "../../components/RestarentCard/Restaurant";
 import RestaurantCart from "./../Restaurant/RestaurantCart";
 import { getAllRestaurantsAction } from "./../State/Restaurant/restaurant.action";
+import { MultiItemCaoursel } from "./MultiItemCaoursel";
 
 const HomePage = () => {
   const { auth, restaurant } = useSelector((store) => store);
@@ -15,8 +16,6 @@ const HomePage = () => {
       dispatch(getAllRestaurantsAction(localStorage.getItem("jwt")));
     }
   }, [auth.user]);
-
-  console.log("<EEEEEEEEe", restaurant);
 
   return (
     <div className="">
@@ -37,7 +36,7 @@ const HomePage = () => {
           <p className="text-2xl font-semibold text-gray-400 py-3 pb-10">
             Top Meels
           </p>
-          {/*  <MultipleItemsCarousel /> */}
+          <MultiItemCaoursel />
         </div>
       </section>
       <section className="px-5 lg:px-20">

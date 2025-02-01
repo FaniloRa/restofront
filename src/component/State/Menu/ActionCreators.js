@@ -1,4 +1,4 @@
-import * as actionTypes from "./ActionType";
+import * as actionTypes from "./ActionTypes";
 
 // Delete Menu Item Actions
 export const deleteMenuItemRequest = () => ({
