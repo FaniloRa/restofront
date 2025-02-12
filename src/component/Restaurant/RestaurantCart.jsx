@@ -28,7 +28,7 @@ const RestaurantCart = ({ data, index }) => {
       <div
         onClick={navigateToRestaurant}
         className={`${
-          !data.open ? "cursor-pointer" : "cursor-not-allowed"
+          data.open ? "cursor-pointer" : "cursor-not-allowed"
         }  relative`}
       >
         <img

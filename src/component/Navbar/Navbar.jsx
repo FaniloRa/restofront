@@ -11,11 +11,14 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export const Navbar = () => {
-  const { auth } = useSelector((store) => store);
+  const { auth, cart } = useSelector((store) => store);
   const navigate = useNavigate();
 
   const handleAvatarClick = () => {
-    if (auth.user?.role === "ROLE_CUSTOMER") {
+    if (
+      auth.user?.role === "ROLE_CUSTOMER" ||
+      auth.user?.role === "ROLE_RESTAURANT_OWNER"
+    ) {
       navigate("/my-profile");
     } else {
       navigate("/admin/restaurant");
@@ -24,6 +27,10 @@ export const Navbar = () => {
 
   const handleClickLogo = () => {
     navigate("/");
+  };
+
+  const navigateToCart = () => {
+    navigate("/cart");
   };
   return (
     <div className="px-5 z-50 py-[.8rem] bg-[#e91e63] lg:px-20 flex justify-between">
@@ -57,8 +64,16 @@ export const Navbar = () => {
           )}
         </div>
         <div className="">
-          <IconButton color="inherit" aria-label="search">
-            <Badge color="secondary" badgeContent={3}>
+          <IconButton
+            color="inherit"
+            aria-label="search"
+            onClick={navigateToCart}
+          >
+            <Badge
+              color="secondary"
+              badgeContent={3}
+              badgeContent={cart.cartItems.length}
+            >
               <ShoppingCartIcon sx={{ fontSize: "1.5rem" }} />
             </Badge>
           </IconButton>
