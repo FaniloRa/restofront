@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -10,6 +10,9 @@ import {
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { categorizedIngredients } from "./../util/CategorizeIngredients";
+import { addItemToCart } from "./../State/Cart/cart.action";
+import { useDispatch } from "react-redux";
 
 const demo = [
   {
@@ -22,9 +25,33 @@ const demo = [
   },
 ];
 
-const MenuCard = () => {
-  const handleCheckBoxChange = (item) => {
-    console.log("value", item);
+const MenuCard = ({ item }) => {
+  const dispatch = useDispatch();
+
+  const [selectedIngredients, setSelectedIngredients] = useState([]);
+  const handleCheckboxChange = (itemName) => {
+    if (selectedIngredients.includes(itemName)) {
+      console.log("yes");
+      setSelectedIngredients(
+        selectedIngredients.filter((item) => item !== itemName)
+      );
+    } else {
+      console.log("no");
+      setSelectedIngredients([...selectedIngredients, itemName]);
+    }
+  };
+
+  const handleAddItemToCart = (e) => {
+    e.preventDefault();
+    const data = {
+      token: localStorage.getItem("jwt"),
+      cartItem: {
+        foodId: item.id,
+        quantity: 1,
+        ingredients: selectedIngredients,
+      },
+    };
+    dispatch(addItemToCart(data));
   };
 
   return (
@@ -38,35 +65,48 @@ const MenuCard = () => {
           <div className="lg:flex items-center lg:space-x-5">
             <img
               className="w-[7rem] h-[7rem] object-cover"
-              src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg"
+              src={item.images}
               alt=""
             />
           </div>
           <div className="space-y-1 px-4 lg:space-y-5 lg:max-w-2xl">
-            <p className="font-semibold text-xl">Burger</p>
-            <p>₹499</p>
-            <p className="text-gray-400">Nice food</p>
+            <p className="font-semibold text-xl">{item.name}</p>
+            <p>{item.price}</p>
+            <p className="text-gray-400">{item.description}</p>
           </div>
         </div>
       </AccordionSummary>
       <AccordionDetails>
-        <form>
+        <form onSubmit={handleAddItemToCart}>
           <div className="flex gap-5 flex-wrap">
-            {demo.map((item) => (
-              <div className="">
-                <p>{item.category}</p>
-                <FormGroup>
-                  {item.ingredients.map((item) => (
-                    <FormControlLabel
-                      control={
-                        <Checkbox onChange={() => handleCheckBoxChange(item)} />
-                      }
-                      label={item}
-                    />
-                  ))}
-                </FormGroup>
-              </div>
-            ))}
+            {Object.keys(categorizedIngredients(item?.ingredients))?.map(
+              (category) => (
+                <div className="pr-5">
+                  <p>{category}</p>
+                  <FormGroup>
+                    {categorizedIngredients(item?.ingredients)[category].map(
+                      (ingredient, index) => (
+                        <FormControlLabel
+                          key={ingredient.name}
+                          control={
+                            <Checkbox
+                              checked={selectedIngredients.includes(
+                                ingredient.name
+                              )}
+                              onChange={() =>
+                                handleCheckboxChange(ingredient.name)
+                              }
+                              disabled={!ingredient.inStoke}
+                            />
+                          }
+                          label={ingredient.name}
+                        />
+                      )
+                    )}
+                  </FormGroup>
+                </div>
+              )
+            )}
           </div>
           <div>
             <Button variant="contained" disabled={false} type="submit">

@@ -37,6 +37,7 @@ const foodTypes = [
   { label: "Non-Vegetarian Only", value: "non_vegetarian" },
   { label: "Seasonal", value: "seasonal" },
 ];
+
 const RestaurantDetails = () => {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -82,9 +83,9 @@ const RestaurantDetails = () => {
     navigate({ search: `?${query}` });
   };
 
-  console.log("restaurant.restaurant?.images[0]", restaurant);
+  /*   console.log("restaurant.restaurant?.images[0]", restaurant);
 
-  console.log("menu", menu);
+  console.log("menu", menu); */
 
   return (
     <>
